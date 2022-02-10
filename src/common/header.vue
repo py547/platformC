@@ -20,13 +20,15 @@
 
         <div class="language">
           <el-dropdown @command="changeLanguage">
-            <span class="el-dropdown-link"> 文/A </span>
+            <span class="el-dropdown-link"
+              ><i
+                class="el-icon-setting"
+                style="font-size: 25px; color: orange"
+              ></i>
+            </span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item command="a">黄金糕</el-dropdown-item>
-              <el-dropdown-item command="b">狮子头</el-dropdown-item>
-              <el-dropdown-item command="c">螺蛳粉</el-dropdown-item>
-              <el-dropdown-item command="d" disabled>双皮奶</el-dropdown-item>
-              <el-dropdown-item command="e" divided>蚵仔煎</el-dropdown-item>
+              <el-dropdown-item command="ZH">中文</el-dropdown-item>
+              <el-dropdown-item command="EN">English</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </div>
@@ -36,57 +38,56 @@
               {{ dataSource }}<i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item command="openSea">OpenSea</el-dropdown-item>
-              <el-dropdown-item command="our NFT"
-                >Our NFT Platform</el-dropdown-item
-              >
+              <el-dropdown-item command="OPENSEA">OpenSea</el-dropdown-item>
+              <el-dropdown-item command="OUR NFT">Our NFT</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </li>
         <router-link tag="li" to="/analysis" class="right">
-          <span>ANALYSIS</span>
+          <span>{{ $t("header.analysis") }}</span>
         </router-link>
         <router-link tag="li" to="/time" class="right">
-          <span>TIME</span>
+          <span>{{ $t("header.time") }}</span>
         </router-link>
         <router-link tag="li" to="/collections" class="right">
-          <span>COLLECTION</span>
+          <span>{{ $t("header.collection") }}</span>
         </router-link>
         <router-link tag="li" to="/home" class="right">
           <!-- <a href="#home">HOME</a> -->
-          <span>HOME</span>
+          <span>{{ $t("header.home") }}</span>
         </router-link>
       </ul>
     </div>
   </div>
 </template>
 <script>
-import { mapState, mapActions, mapMutations } from "vuex";
+import { mapState, mapMutations } from "vuex";
 export default {
   data() {
-    return {
-      language: true,
-    };
+    return {};
   },
   methods: {
-    ...mapMutations(["SET_DATA_SOURCE", "GET_DATA_SOURCE"]),
-    ...mapActions(["get_data_test"]),
+    ...mapMutations([
+      "SET_DATA_SOURCE",
+      "GET_DATA_SOURCE",
+      "GET_LANGUAGE",
+      "SET_LANGUAGE",
+    ]),
     changeDataSource(command) {
       this.SET_DATA_SOURCE(command);
     },
-  },
-  watch: {
-    //监听数据源切换，其他组件通过state监听对应数据，实现内容刷新
-    dataSource(value) {
-      console.log("new data_source:" + value);
+    changeLanguage(command) {
+      this.SET_LANGUAGE(command);
+      this.$i18n.locale = command;
     },
   },
+  watch: {},
   mounted() {
     this.GET_DATA_SOURCE();
-    this.get_data_test();
+    this.GET_LANGUAGE();
   },
   computed: {
-    ...mapState(["dataSource"]),
+    ...mapState(["dataSource", "language"]),
   },
 };
 </script>
@@ -206,6 +207,7 @@ div.avatar {
 div.language {
   float: right;
   margin-right: 30px;
-  margin-top: 30px;
+  margin-top: 25px;
+  color: orange;
 }
 </style>

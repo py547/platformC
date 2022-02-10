@@ -27,6 +27,10 @@ export default new Router({
             path: '/time',
             component: Time
         },
+        {
+            path: '/',
+            redirect: '/home'
+        },
 
     ]
 })

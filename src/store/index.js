@@ -7,7 +7,8 @@ Vue.use(Vuex)
 
 const state = {
 
-    dataSource: "opensea"//数据源
+    dataSource: "opensea",
+    language: "EN"
 
 }
 
