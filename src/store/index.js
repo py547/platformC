@@ -9,7 +9,7 @@ Vue.use(Vuex)
 
 const state = {
     //变量
-    dataSource: "opensea"
+    dataSource: "opensea"//数据源
 
 }
 

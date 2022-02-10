@@ -19,13 +19,15 @@
         </div>
 
         <li class="right">
-          <el-dropdown>
+          <el-dropdown @command="changeDataSource">
             <el-button type="primary">
-              SOURCE<i class="el-icon-arrow-down el-icon--right"></i>
+              {{ dataSource }}<i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item>OpenSea</el-dropdown-item>
-              <el-dropdown-item>Our NFT Platform</el-dropdown-item>
+              <el-dropdown-item command="openSea">OpenSea</el-dropdown-item>
+              <el-dropdown-item command="our NFT"
+                >Our NFT Platform</el-dropdown-item
+              >
             </el-dropdown-menu>
           </el-dropdown>
         </li>
@@ -47,12 +49,35 @@
   </div>
 </template>
 <script>
+import { setStore, getStore } from "../utils/storage";
 export default {
   data() {
-    return {};
+    return {
+      dataSource: null,
+    };
   },
-  methods: {},
-  watch: {},
+  methods: {
+    changeDataSource(command) {
+      setStore("data_source", command);
+      this.dataSource = command;
+    },
+  },
+  watch: {
+    //监听数据源切换，重新获取数据和渲染页面
+    dataSource(value) {
+      console.log("new data_source:" + value);
+    },
+  },
+  mounted() {
+    //
+    this.dataSource = getStore("data_source");
+    if (this.dataSource) {
+      console.log(this.dataSource);
+    } else {
+      setStore("data_source", "openSea");
+      this.dataSource = "openSea";
+    }
+  },
 };
 </script>
 <style  scoped>
