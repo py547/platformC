@@ -1,5 +1,5 @@
-import { GET_COLLECTIONS, GET_DATA_SOURCE } from './mutation-types'
-
+import { GET_COLLECTIONS, GET_DATA_SOURCE, SET_DATA_SOURCE } from './mutation-types'
+import { setStore, getStore } from '../utils/storage';
 
 export default {
     [GET_COLLECTIONS](state) {
@@ -7,7 +7,11 @@ export default {
     },
 
     [GET_DATA_SOURCE](state) {
-        console.log(state);
-        console.log("11111");
+        state.dataSource = getStore("data_source") ? getStore("data_source") : 'openSea';
+
+    },
+    [SET_DATA_SOURCE](state, dataSource) {
+        state.dataSource = dataSource;
+        setStore("data_source", dataSource)
     }
 }

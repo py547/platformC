@@ -18,6 +18,18 @@
           ></el-avatar>
         </div>
 
+        <div class="language">
+          <el-dropdown @command="changeLanguage">
+            <span class="el-dropdown-link"> 文/A </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item command="a">黄金糕</el-dropdown-item>
+              <el-dropdown-item command="b">狮子头</el-dropdown-item>
+              <el-dropdown-item command="c">螺蛳粉</el-dropdown-item>
+              <el-dropdown-item command="d" disabled>双皮奶</el-dropdown-item>
+              <el-dropdown-item command="e" divided>蚵仔煎</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </div>
         <li class="right">
           <el-dropdown @command="changeDataSource">
             <el-button type="primary">
@@ -49,34 +61,32 @@
   </div>
 </template>
 <script>
-import { setStore, getStore } from "../utils/storage";
+import { mapState, mapActions, mapMutations } from "vuex";
 export default {
   data() {
     return {
-      dataSource: null,
+      language: true,
     };
   },
   methods: {
+    ...mapMutations(["SET_DATA_SOURCE", "GET_DATA_SOURCE"]),
+    ...mapActions(["get_data_test"]),
     changeDataSource(command) {
-      setStore("data_source", command);
-      this.dataSource = command;
+      this.SET_DATA_SOURCE(command);
     },
   },
   watch: {
-    //监听数据源切换，重新获取数据和渲染页面
+    //监听数据源切换，其他组件通过state监听对应数据，实现内容刷新
     dataSource(value) {
       console.log("new data_source:" + value);
     },
   },
   mounted() {
-    //
-    this.dataSource = getStore("data_source");
-    if (this.dataSource) {
-      console.log(this.dataSource);
-    } else {
-      setStore("data_source", "openSea");
-      this.dataSource = "openSea";
-    }
+    this.GET_DATA_SOURCE();
+    this.get_data_test();
+  },
+  computed: {
+    ...mapState(["dataSource"]),
   },
 };
 </script>
@@ -192,5 +202,10 @@ div.avatar {
   float: right;
   margin-right: 30px;
   margin-top: 15px;
+}
+div.language {
+  float: right;
+  margin-right: 30px;
+  margin-top: 30px;
 }
 </style>
