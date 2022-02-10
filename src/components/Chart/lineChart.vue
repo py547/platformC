@@ -7,7 +7,7 @@ import { Area } from "@antv/g2plot";
 export default {
   name: "lineChart",
   props: {
-    value: {
+    linedata: {
       type: Array,
       default() {
         return [];
@@ -33,35 +33,36 @@ export default {
   methods: {
     initG2Plot() {
       this.LinePlot = new Area(this.$refs.lineChart, {
-        data: this.value,
+        data: this.linedata,
         height: this.Height,
         width: this.Width,
-        xField: "year",
+        xField: "time",
         yField: "value",
-        label: {},
-        point: {
-          size: 5,
-          shape: "diamond",
-          style: {
-            fill: "white",
-            stroke: "#5B8FF9",
-            lineWidth: 2,
-          },
+        xAxis: {
+          range: [0, 1],
+          tickCount: 10,
         },
         areaStyle: () => {
           return {
-            fill: "l(270) 0:#ffffff 0.5:#7ec2f3 1:#1890ff",
+            fill: "l(270) 0:#ffffff 0.5:#FFA500 1:#FF7F24",
           };
         },
         animation: false,
         slider: {
-          start: 0.1,
-          end: 0.9,
+          start: 0,
+          end: 1,
+          backgroundStyle: {
+            fill: "orange",
+            shadowColor: "#FFA500",
+          },
+          foregroundStyle: {
+            fill: "orange",
+          },
           trendCfg: {
             isArea: true,
           },
         },
-        // color: "red",
+        color: "orange",
         tooltip: { showMarkers: false },
         state: {
           active: {
@@ -79,9 +80,8 @@ export default {
     },
   },
   watch: {
-    value: {
+    linedata: {
       handler() {
-        console.log("1111");
         this.LinePlot.render();
       },
       deep: true,

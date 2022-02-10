@@ -1,40 +1,44 @@
 <template >
   <div class="home-box">
     <div class="chart-box">
-      <line-chart v-if="loading" :value="chartData"></line-chart>
+      <line-chart v-if="loaded" :linedata="lineData"></line-chart>
     </div>
   </div>
 </template>
 <script>
-import LineChart from "../../components/Chart/lineChart.vue";
+import LineChart from "../../components/Chart/lineChart";
+import { mapActions, mapState } from "vuex";
 
 export default {
-  data() {
-    return {
-      loading: true,
-      chartData: [
-        { year: "1991", value: 3 },
-        { year: "1992", value: 4 },
-        { year: "1993", value: 3.5 },
-        { year: "1994", value: 5 },
-        { year: "1995", value: 4.9 },
-        { year: "1996", value: 6 },
-        { year: "1997", value: 7 },
-        { year: "1998", value: 9 },
-        { year: "1999", value: 13 },
-      ],
-    };
-  },
   components: {
     LineChart,
+  },
+  data() {
+    return {
+      loaded: false,
+    };
+  },
+  methods: {
+    ...mapActions(["get_data_test"]),
+  },
+  mounted() {
+    this.get_data_test({ limit: 300 }).then(() => {
+      this.loaded = true;
+    });
+  },
+  computed: {
+    ...mapState(["lineData"]),
   },
 };
 </script>
 <style scoped>
 .home-box {
-  width: 100%;
+  width: 90%;
+  margin: 0px auto;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
 }
 .chart-box {
-  margin: 200px 40px 0px 40px;
+  margin: 100px 40px 0px 40px;
+  padding: 40px 30px;
 }
 </style>

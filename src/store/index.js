@@ -8,8 +8,8 @@ Vue.use(Vuex)
 const state = {
 
     dataSource: "opensea",
-    language: "EN"
-
+    language: "EN",
+    lineData: []
 }
 
 export default new Vuex.Store({

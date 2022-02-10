@@ -67,12 +67,7 @@ export default {
     return {};
   },
   methods: {
-    ...mapMutations([
-      "SET_DATA_SOURCE",
-      "GET_DATA_SOURCE",
-      "GET_LANGUAGE",
-      "SET_LANGUAGE",
-    ]),
+    ...mapMutations(["SET_DATA_SOURCE", "GET_DATA_SOURCE", "SET_LANGUAGE"]),
     changeDataSource(command) {
       this.SET_DATA_SOURCE(command);
     },
@@ -84,7 +79,6 @@ export default {
   watch: {},
   mounted() {
     this.GET_DATA_SOURCE();
-    this.GET_LANGUAGE();
   },
   computed: {
     ...mapState(["dataSource", "language"]),
