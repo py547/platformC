@@ -1,6 +1,13 @@
 <template >
   <div class="home-box">
     <div class="chart-box">
+      <div class="radio">
+        <el-radio-group v-model="radio" fill="orange" >
+          <el-radio-button label="number" >数量</el-radio-button>
+          <el-radio-button label="project" >项目</el-radio-button>
+          <el-radio-button label="user" >用户</el-radio-button>
+        </el-radio-group> 
+      </div>
       <line-chart v-if="loaded" :linedata="lineData"></line-chart>
     </div>
   </div>
@@ -16,19 +23,30 @@ export default {
   data() {
     return {
       loaded: false,
+      radio:"number",
     };
   },
   methods: {
-    ...mapActions(["get_data_test"]),
+    ...mapActions(["get_data"]),
+
+    changeLineDataType(lineDataType){
+      this.dataType=lineDataType
+      console.log(lineDataType)
+    }
   },
   mounted() {
-    this.get_data_test({ limit: 300 }).then(() => {
+    this.get_data(this.radio).then(() => {
       this.loaded = true;
     });
   },
   computed: {
     ...mapState(["lineData"]),
   },
+  watch:{
+    radio(value){
+      this.get_data(value)
+    }
+  }
 };
 </script>
 <style scoped>
@@ -41,4 +59,13 @@ export default {
   margin: 100px 40px 0px 40px;
   padding: 40px 30px;
 }
+.radio {
+  margin: 0px;
+  padding: 0px 0px  40px 0px;
+}
+.el-radio-button:hover {
+
+    color: #FFF ;
+}
+
 </style>

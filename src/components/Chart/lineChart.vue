@@ -82,10 +82,11 @@ export default {
   watch: {
     linedata: {
       handler() {
-        this.LinePlot.render();
+        this.LinePlot.data=this.linedata      
+        this.LinePlot.changeData(this.linedata);
       },
       deep: true,
     },
-  },
+  }
 };
 </script>
