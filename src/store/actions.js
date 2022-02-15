@@ -11,9 +11,7 @@ async function get_data(context,lineDataType){
         data = get_line_data_user(lineDataType)
     }
     context.commit("SET_LINE_DATA", data)
-
 }
-
 
 async function get_line_data_number(context, params) {
     const mydata = await collectionsList(params)

@@ -5,6 +5,13 @@ module.exports = {
         collection: "COLLECTION",
         time: "TIME",
         analysis: "ANALYSIS"
+    },
+    home:{
+        linetype:{
+            number:"Number",
+            project:"Project",
+            user:"User",
+        }
     }
 
 }

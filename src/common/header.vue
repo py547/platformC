@@ -12,10 +12,8 @@
           </router-link>
         </li>
 
-        <div class="avatar">
-          <el-avatar
-            src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
-          ></el-avatar>
+        <div class="avatar" @click="handleClick">
+          <el-avatar icon="el-icon-user-solid" ></el-avatar>
         </div>
 
         <div class="language">
@@ -62,6 +60,8 @@
 </template>
 <script>
 import { mapState, mapMutations } from "vuex";
+import { authenticate, getAccount, addListener } from '../api/contract.js'
+
 export default {
   data() {
     return {};
@@ -75,10 +75,17 @@ export default {
       this.SET_LANGUAGE(command);
       this.$i18n.locale = command;
     },
+    //用户登陆
+    async handleClick(){
+            await authenticate();
+            this.account = await getAccount();
+        }
   },
   watch: {},
   mounted() {
     this.GET_DATA_SOURCE();
+    this.handleClick();
+    addListener(this.handleClick)
   },
   computed: {
     ...mapState(["dataSource", "language"]),
