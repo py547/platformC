@@ -1,39 +1,13 @@
 <template >
   <div class="home-box">
-    <div class="chart-box">
-      <div class="radio">
-        <el-radio-group v-model="radio" fill="orange" >
-          <el-radio-button :disabled="!loaded" label="number" >number</el-radio-button>
-          <el-radio-button :disabled="!loaded" label="project" >project</el-radio-button>
-          <el-radio-button :disabled="!loaded" label="user" >user</el-radio-button>
-        </el-radio-group> 
-         
-        <!-- <el-dropdown @command="changeDuration">
-            <el-button type="primary">
-              {{ duration }}<i class="el-icon-arrow-down el-icon--right"></i>
-            </el-button>
-            <el-dropdown-menu >
-              <el-dropdown-item command="30 Days">30 Days</el-dropdown-item>
-              <el-dropdown-item command="1 Year">1 Year</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown> -->
-     
-      </div>
-     
-
-      <line-chart v-if="loaded" :linedata="lineData"></line-chart>
-      <div v-else v-loading="true" style="width: 100%"></div>
-    </div>
+   home
   </div>
 </template>
 <script>
-import LineChart from "../../components/Chart/lineChart";
 import { mapActions, mapState } from "vuex";
 
 export default {
-  components: {
-    LineChart,
-  },
+ 
   data() {
     return {
       loaded: false,

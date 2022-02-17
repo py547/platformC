@@ -1,23 +1,19 @@
 <template>
-  <div id="app">
+  <div>
     <c-header></c-header>
-    <main>
-      <Fade>
-        <router-view></router-view>
-      </Fade>
-    </main>
-    <c-footer></c-footer>
-  </div>
+    <router-view></router-view>
+  </div>   
 </template>
 
 <script>
 import CHeader from "./common/header.vue";
-import CFooter from "./common/footer.vue";
-import Fade from "./components/Base/fade.vue";
+
 export default {
-  name: "App",
-  components: { CFooter, Fade, CHeader },
-};
+  name: 'App',
+ components:{
+   CHeader
+ }
+}
 </script>
 
 <style>

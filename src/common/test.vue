@@ -1,78 +1,42 @@
 <template >
   <div class="header-container">
-    <div class="header-box">
-      <ul class="topnav">
-        <li class="logo-box">
-          <router-link to="/home">
-            <img
-              src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
-              alt="logo"
-              class="logo"
-            />
-          </router-link>
-        </li>
-
-        <div class="avatar" @click="handleClick">
-          <el-avatar icon="el-icon-user-solid" ></el-avatar>
+        <div class="header-box">
+          <ul class="topnav">
+            <li class="logo-box">
+                  <router-link to="/home">
+                    <img
+                      src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+                      alt="logo"
+                      class="logo"
+                    />
+                  </router-link>
+            </li>
+            <div class="avatar" @click="handleClick">
+                <el-avatar :icon="UserFilled"></el-avatar>
+            </div>
+          </ul>
         </div>
-
-         <li class="right">
-          <router-link to="/analysis" class="nav-link">
-             <span>analysis</span>
-          </router-link>
-        </li>
-         <li class="right">
-          <router-link to="/time" class="nav-link">
-             <span>time</span>
-          </router-link>
-        </li>
-         <li class="right">
-          <router-link to="/collections" class="nav-link">
-             <span>collection</span>
-          </router-link>
-        </li>
-        <li class="right">
-          <router-link to="/home" class="nav-link">
-             <span>home</span>
-          </router-link>
-        </li>
-        
-      </ul>
-    </div>
   </div>
 </template>
 <script>
-import { mapState, mapMutations } from "vuex";
-import { authenticate, getAccount, addListener } from '../api/contract.js'
+
+import { authenticate, getAccount } from '../api/contract.js'
+import { UserFilled } from '@element-plus/icons-vue'
 
 export default {
-  data() {
-    return {};
+ 
+  setup() {
+    async function handleClick(){
+      await authenticate();
+      this.account = await getAccount();
+    }
+    return{
+      handleClick,
+      UserFilled
+    }
   },
-  methods: {
-    ...mapMutations(["SET_DATA_SOURCE", "GET_DATA_SOURCE", "SET_LANGUAGE"]),
-    changeDataSource(command) {
-      this.SET_DATA_SOURCE(command);
-    },
-    changeLanguage(command) {
-      this.SET_LANGUAGE(command);
-      this.$i18n.locale = command;
-    },
-    //用户登陆
-    async handleClick(){
-            await authenticate();
-            this.account = await getAccount();
-        }
-  },
-  watch: {},
-  mounted() {
-    this.GET_DATA_SOURCE();
-    this.handleClick();
-    addListener(this.handleClick)
-  },
-  computed: {
-    ...mapState(["dataSource", "language"]),
-  },
+ 
+  
 };
 </script>
 <style  scoped>
@@ -182,7 +146,6 @@ ul.topnav li.right {
 ul li.router-link-active,
 ul li.router-link-exact-active {
   border-bottom: solid 2px orange;
-  
 }
 div.avatar {
   float: right;
@@ -194,8 +157,5 @@ div.language {
   margin-right: 30px;
   margin-top: 25px;
   color: orange;
-}
-.nav-link{
-  text-decoration: none;
 }
 </style>
