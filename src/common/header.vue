@@ -1,49 +1,77 @@
 <template >
-  <div class="header-container">
-    <div class="header-box">
-      <ul class="topnav">
-        <li class="logo-box">
-          <router-link to="/home">
-            <img
-              src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
-              alt="logo"
-              class="logo"
-            />
-          </router-link>
-        </li>
+  <div class="header-box">
+    <div class="header w">
+      <!-- 头部logo -->
+      <div class="header-logo"></div>
+      <!-- 头部导航栏 -->
+      <div class="header-nav">
+        <ul>
+          <!-- 头部头像 -->
+          <div class="header-avatar"></div>
+          <li>
+            <router-link to="/home">
+              <span>{{ $t("header.home") }}</span>
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/collections">
+              <span>{{ $t("header.collections") }}</span>
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/time">
+              <span>{{ $t("header.time") }}</span>
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/analysis">
+              <span>{{ $t("header.analysis") }}</span>
+            </router-link>
+          </li>
 
-        <div class="avatar" @click="handleClick">
-          <el-avatar icon="el-icon-user-solid" ></el-avatar>
-        </div>
-
-         <li class="right">
-          <router-link to="/analysis" class="nav-link">
-             <span>analysis</span>
-          </router-link>
-        </li>
-         <li class="right">
-          <router-link to="/time" class="nav-link">
-             <span>time</span>
-          </router-link>
-        </li>
-         <li class="right">
-          <router-link to="/collections" class="nav-link">
-             <span>collection</span>
-          </router-link>
-        </li>
-        <li class="right">
-          <router-link to="/home" class="nav-link">
-             <span>home</span>
-          </router-link>
-        </li>
-        
-      </ul>
+          <li>
+            <div class="datasource-dropdown">
+              <el-dropdown @command="changeDataSource">
+                <el-button type="primary">
+                  {{ dataSource
+                  }}<el-icon class="el-icon--right"><arrow-down /></el-icon>
+                </el-button>
+                <template #dropdown>
+                  <el-dropdown-menu>
+                    <el-dropdown-item command="OPENSEA"
+                      >OPENSEA</el-dropdown-item
+                    >
+                    <el-dropdown-item command="OUR  NFT"
+                      >OUR NFT</el-dropdown-item
+                    >
+                  </el-dropdown-menu>
+                </template>
+              </el-dropdown>
+            </div>
+          </li>
+          <li>
+            <div class="language-dropdown">
+              <el-dropdown @command="changeLanguage">
+                <span class="el-dropdown-link">
+                  <el-icon class="setting"><setting /></el-icon>
+                </span>
+                <template #dropdown>
+                  <el-dropdown-menu>
+                    <el-dropdown-item command="zh">中文</el-dropdown-item>
+                    <el-dropdown-item command="en">ENG</el-dropdown-item>
+                  </el-dropdown-menu>
+                </template>
+              </el-dropdown>
+            </div>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
 <script>
 import { mapState, mapMutations } from "vuex";
-import { authenticate, getAccount, addListener } from '../api/contract.js'
+import { authenticate, getAccount, addListener } from "../api/contract.js";
 
 export default {
   data() {
@@ -59,16 +87,16 @@ export default {
       this.$i18n.locale = command;
     },
     //用户登陆
-    async handleClick(){
-            await authenticate();
-            this.account = await getAccount();
-        }
+    async handleClick() {
+      await authenticate();
+      this.account = await getAccount();
+    },
   },
   watch: {},
   mounted() {
     this.GET_DATA_SOURCE();
     this.handleClick();
-    addListener(this.handleClick)
+    addListener(this.handleClick);
   },
   computed: {
     ...mapState(["dataSource", "language"]),
@@ -76,96 +104,92 @@ export default {
 };
 </script>
 <style  scoped>
-body div {
-  margin: 0;
-}
-
-.header-box {
-  height: 60px;
-}
-ul.topnav {
-  list-style-type: none;
+* {
   margin: 0;
   padding: 0;
-  overflow: hidden;
-  background-color: rgb(255, 251, 251);
-  position: fixed;
-  top: 0;
-  width: 100%;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
-}
-.logo {
-  margin: 10px 200px;
-  width: 50px;
-}
-div.analysis {
-  margin-right: 150px;
 }
 
-ul.topnav li {
-  float: left;
+/* 版心 */
+.w {
+  width: 1500px;
+  margin: 0 auto;
 }
 
-ul.topnav li span {
-  display: block;
-  color: rgb(255, 153, 0);
-  text-align: center;
-  padding: 14px 16px;
+a {
   text-decoration: none;
-  height: 50px;
-  line-height: 50px;
-  font-weight: 600;
-  font-size: 16px;
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  color: #fff;
 }
 
-ul.topnav li span:hover:not(.active) {
-  border-bottom: solid 2px rgb(255, 153, 0);
-  cursor: pointer;
+li {
+  list-style: none;
 }
 
-/* ul.topnav li a.active {
-  color: rgb(255, 153, 0);
-  border-bottom: solid 2px rgb(255, 153, 0);
-} */
+/* header整体样式 */
+.header-box {
+  height: 80px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
+  border: transparent 1px solid;
+}
 
-ul.topnav li.right {
+.header {
+  margin: 10px auto;
+}
+
+.header-logo {
+  float: left;
+  height: 60px;
+  width: 60px;
+  background-color: orange;
+}
+
+.header-nav {
   float: right;
-}
-@media screen and (max-width: 600px) {
-  ul.topnav li.right,
-  ul.topnav li {
-    float: none;
-  }
+  height: 60px;
+  margin-left: 600px;
 }
 
-.el-dropdown {
-  vertical-align: top;
+.header-nav ul li {
+  float: left;
+  margin-right: 5px;
 }
-.el-dropdown + .el-dropdown {
+
+.header-nav ul li a {
+  display: block;
+  padding: 20px 30px;
+  font-size: 16px;
+  font-weight: 600;
+  color: orange;
+}
+
+.header-nav ul li a:hover {
+  border-bottom: solid 2px orange;
+}
+
+.header-avatar {
+  float: right;
+  height: 60px;
+  width: 60px;
+  margin-left: 30px;
+  background-color: green;
+}
+
+/* 路由链接样式  */
+.router-link-active,
+.router-link-exact-active {
+  border-bottom: solid 2px orange;
+}
+/* ---- */
+
+/* 下拉框样式 */
+.example-showcase .el-dropdown + .el-dropdown {
   margin-left: 15px;
 }
-.el-icon-arrow-down {
-  font-size: 12px;
-}
-
-.el-button {
-  margin-left: 100px;
-  background-color: #fff;
-  color: rgb(255, 153, 0);
-  border-radius: 40px;
-  border: solid 1px rgb(255, 153, 0);
-
-  margin-top: 20px;
-  margin-right: 40px;
-  line-height: 10px;
-  font-weight: 600;
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
-}
-.el-button:hover {
-  background-color: rgba(255, 153, 0, 0.6);
-  border: solid 1px rgba(255, 153, 0, 0.6);
-  color: #fff;
+.example-showcase .el-dropdown-link {
+  cursor: pointer;
+  color: var(--el-color-primary);
+  display: flex;
+  align-items: center;
 }
 .el-button,
 .el-button:focus:not(.el-button:hover) {
@@ -174,28 +198,28 @@ ul.topnav li.right {
   border-radius: 40px;
   border: solid 1px rgb(255, 153, 0);
 }
+
+.el-button:hover {
+  background-color: orange;
+  border: transparent 1px solid;
+}
+.datasource-dropdown {
+  padding: 15px;
+  width: 100px;
+}
 .el-dropdown-menu__item:not(.is-disabled):hover {
   background-color: rgba(255, 153, 0, 0.1);
   color: rgba(255, 153, 0, 0.8);
 }
 
-ul li.router-link-active,
-ul li.router-link-exact-active {
-  border-bottom: solid 2px orange;
-  
+.el-dropdown-menu__item:not(.is-disabled) {
+  color: red;
 }
-div.avatar {
-  float: right;
-  margin-right: 30px;
+/* ---- */
+.setting {
+  margin-left: 30px;
+  font-size: 30px;
   margin-top: 15px;
-}
-div.language {
-  float: right;
-  margin-right: 30px;
-  margin-top: 25px;
   color: orange;
-}
-.nav-link{
-  text-decoration: none;
 }
 </style>
