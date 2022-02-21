@@ -4,38 +4,18 @@
  
 <script>
 import { Area } from "@antv/g2plot";
+import { toRefs,onMounted,watch} from 'vue'
+
 export default {
   name: "lineChart",
-  props: {
-    linedata: {
-      type: Array,
-      default() {
-        return [];
-      },
-    },
-    Height: {
-      type: Number,
-      default: 0,
-    },
-    Width: {
-      type: Number,
-      default: 0,
-    },
-  },
-  data() {
-    return {
-      LinePlot: null,
-    };
-  },
-  mounted() {
-    this.initG2Plot();
-  },
-  methods: {
-    initG2Plot() {
-      this.LinePlot = new Area(this.$refs.lineChart, {
-        data: this.linedata,
-        height: this.Height,
-        width: this.Width,
+  setup(props) {
+      const { linedata,Height,Width } = toRefs(props)
+      let LinePlot = null
+      const  initG2Plot=()=>{
+        LinePlot = new Area('lineChart', {
+        data: linedata.value,
+        height: Height.value,
+        width: Width.value,
         xField: "time",
         yField: "value",
         xAxis: {
@@ -76,17 +56,32 @@ export default {
         interactions: [{ type: "marker-active" }],
       });
 
-      this.LinePlot.render();
+      LinePlot.render();
+      }
+      onMounted(() => {
+        initG2Plot()
+      })
+      watch(linedata,()=>{
+        LinePlot.data=linedata.value
+        LinePlot.changeData(linedata.value)
+        }) 
+  },
+  props: {
+    linedata: {
+      type: Array,
+      default() {
+        return [];
+      },
+    },
+    Height: {
+      type: Number,
+      default: 0,
+    },
+    Width: {
+      type: Number,
+      default: 0,
     },
   },
-  watch: {
-    linedata: {
-      handler() {
-        this.LinePlot.data=this.linedata      
-        this.LinePlot.changeData(this.linedata);
-      },
-      deep: true,
-    },
-  }
+ 
 };
 </script>

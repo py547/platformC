@@ -17,7 +17,22 @@
               <el-dropdown-item command="1 Year">1 Year</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown> -->
-     
+              <el-dropdown @command="changeDuration">
+                <el-button type="primary">
+                  {{ duration
+                  }}<el-icon class="el-icon--right"><arrow-down /></el-icon>
+                </el-button>
+                <template #dropdown>
+                  <el-dropdown-menu>
+                    <el-dropdown-item command="30day"
+                      >30 Day</el-dropdown-item
+                    >
+                    <el-dropdown-item command="1year"
+                      >1 Year</el-dropdown-item
+                    >
+                  </el-dropdown-menu>
+                </template>
+              </el-dropdown>
       </div>
      
 
@@ -37,7 +52,7 @@ export default {
   data() {
     return {
       loaded: false,
-      radio:"number",
+      radio:"project",
       duration:"30 Days"
     };
   },
