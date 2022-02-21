@@ -3,9 +3,9 @@
     <div class="chart-box">
       <div class="radio">
         <el-radio-group v-model="radio" fill="orange" >
-          <el-radio-button :disabled="!loaded" label="number" >number</el-radio-button>
-          <el-radio-button :disabled="!loaded" label="project" >project</el-radio-button>
-          <el-radio-button :disabled="!loaded" label="user" >user</el-radio-button>
+          <el-radio-button :disabled="!loaded" label="number" >{{ $t("home.number") }}</el-radio-button>
+          <el-radio-button :disabled="!loaded" label="project" >{{ $t("home.project") }}</el-radio-button>
+          <el-radio-button :disabled="!loaded" label="user" >{{ $t("home.user") }}</el-radio-button>
         </el-radio-group> 
          
         <!-- <el-dropdown @command="changeDuration">
