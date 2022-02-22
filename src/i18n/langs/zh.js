@@ -3,11 +3,12 @@ module.exports = {
     home: "主页",
     collections: "收集",
     time: "时间",
-    analysis: "分析"
+    analysis: "分析",
+    language: "语言"
   },
-  home:{
-    number:"数量",
-    project:"项目",
-    user:"用户",
+  home: {
+    number: "数量",
+    project: "项目",
+    user: "用户",
   }
 }

@@ -2,39 +2,32 @@
   <div class="home-box">
     <div class="chart-box">
       <div class="radio">
-        <el-radio-group v-model="radio" fill="orange" >
-          <el-radio-button :disabled="!loaded" label="number" >{{ $t("home.number") }}</el-radio-button>
-          <el-radio-button :disabled="!loaded" label="project" >{{ $t("home.project") }}</el-radio-button>
-          <el-radio-button :disabled="!loaded" label="user" >{{ $t("home.user") }}</el-radio-button>
-        </el-radio-group> 
-         
-        <!-- <el-dropdown @command="changeDuration">
+        <el-radio-group v-model="radio" fill="orange">
+          <el-radio-button :disabled="!loaded" label="number">{{
+            $t("home.number")
+          }}</el-radio-button>
+          <el-radio-button :disabled="!loaded" label="project">{{
+            $t("home.project")
+          }}</el-radio-button>
+          <el-radio-button :disabled="!loaded" label="user">{{
+            $t("home.user")
+          }}</el-radio-button>
+        </el-radio-group>
+        <div style="display: inline-block">
+          <el-dropdown @command="changeDuration">
             <el-button type="primary">
-              {{ duration }}<i class="el-icon-arrow-down el-icon--right"></i>
+              {{ duration
+              }}<el-icon class="el-icon--right"><arrow-down /></el-icon>
             </el-button>
-            <el-dropdown-menu >
-              <el-dropdown-item command="30 Days">30 Days</el-dropdown-item>
-              <el-dropdown-item command="1 Year">1 Year</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown> -->
-              <el-dropdown @command="changeDuration">
-                <el-button type="primary">
-                  {{ duration
-                  }}<el-icon class="el-icon--right"><arrow-down /></el-icon>
-                </el-button>
-                <template #dropdown>
-                  <el-dropdown-menu>
-                    <el-dropdown-item command="30day"
-                      >30 Day</el-dropdown-item
-                    >
-                    <el-dropdown-item command="1year"
-                      >1 Year</el-dropdown-item
-                    >
-                  </el-dropdown-menu>
-                </template>
-              </el-dropdown>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item command="30day">30 Day</el-dropdown-item>
+                <el-dropdown-item command="1year">1 Year</el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
+        </div>
       </div>
-     
 
       <line-chart v-if="loaded" :linedata="lineData"></line-chart>
       <div v-else v-loading="true" style="width: 100%"></div>
@@ -52,21 +45,20 @@ export default {
   data() {
     return {
       loaded: false,
-      radio:"project",
-      duration:"30 Days"
+      radio: "project",
+      duration: "30 Days",
     };
   },
   methods: {
     ...mapActions(["get_data"]),
 
-    changeLineDataType(lineDataType){
-      this.dataType=lineDataType
-      console.log(lineDataType)
+    changeLineDataType(lineDataType) {
+      this.dataType = lineDataType;
+      console.log(lineDataType);
     },
-    changeDuration(duration){
-      this.duration=duration
-    }
-
+    changeDuration(duration) {
+      this.duration = duration;
+    },
   },
   mounted() {
     this.get_data(this.radio).then(() => {
@@ -76,15 +68,15 @@ export default {
   computed: {
     ...mapState(["lineData"]),
   },
-  watch:{
-    radio(value){
-      this.loaded=false
-      this.get_data(value)
+  watch: {
+    radio(value) {
+      this.loaded = false;
+      this.get_data(value);
     },
-    lineData(){
-      this.loaded=true
+    lineData() {
+      this.loaded = true;
     },
-  }
+  },
 };
 </script>
 <style scoped>
@@ -94,18 +86,16 @@ export default {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
 }
 .chart-box {
-  margin: 100px 40px 0px 40px;
+  /* margin: 100px 40px 0px 40px; */
   padding: 40px 30px;
 }
 .radio {
   margin: 0px;
-  padding: 0px 0px  40px 0px;
+  padding: 0px 0px 40px 0px;
 }
 .el-radio-button:hover {
-
-    color: #FFF ;
+  color: #fff;
 }
-
 
 .el-button {
   margin-left: 40px;
@@ -132,5 +122,5 @@ export default {
 .el-dropdown-menu__item:not(.is-disabled):hover {
   background-color: rgba(255, 153, 0, 0.1);
   color: rgba(255, 153, 0, 0.8);
-} 
+}
 </style>

@@ -3,11 +3,12 @@ module.exports = {
     home: "Home",
     collections: "Collections",
     time: "Time",
-    analysis: "Analysis"
+    analysis: "Analysis",
+    language: "Language"
   },
-  home:{
-    number:"Number",
-    project:"Project",
-    user:"User",
+  home: {
+    number: "Number",
+    project: "Project",
+    user: "User",
   }
 }

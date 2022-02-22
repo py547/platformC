@@ -2,18 +2,18 @@
   <div>
     <c-header></c-header>
     <router-view></router-view>
-  </div>   
+  </div>
 </template>
 
 <script>
 import CHeader from "./common/header.vue";
 
 export default {
-  name: 'App',
- components:{
-   CHeader
- }
-}
+  name: "App",
+  components: {
+    CHeader,
+  },
+};
 </script>
 
 <style>
@@ -26,5 +26,11 @@ export default {
 }
 body {
   margin: 0;
+  position: relative;
+  z-index: 0;
+}
+:root {
+  --el-color-primary-light-9: rgba(255, 165, 0, 0.7) !important;
+  --el-color-primary-light-2: #fff !important;
 }
 </style>

@@ -71,25 +71,47 @@
         <div class="navMain">
           <div class="navList">
             <div class="nav-page-link-box">
+              <el-icon><home-filled /></el-icon>
               <router-link to="/home" class="nav-page-link">
                 <span>{{ $t("header.home") }}</span>
               </router-link>
             </div>
             <div class="nav-page-link-box">
+              <el-icon><management /></el-icon>
               <router-link to="/collections" class="nav-page-link">
                 <span>{{ $t("header.collections") }}</span>
               </router-link>
             </div>
 
             <div class="nav-page-link-box">
+              <el-icon><timer /></el-icon>
               <router-link to="/time" class="nav-page-link">
                 <span>{{ $t("header.time") }}</span>
               </router-link>
             </div>
+
             <div class="nav-page-link-box">
+              <el-icon><histogram /></el-icon>
               <router-link to="/analysis" class="nav-page-link">
                 <span>{{ $t("header.analysis") }}</span>
               </router-link>
+            </div>
+            <div class="nav-page-link-box">
+              <el-icon style=""><setting /></el-icon>
+
+              <span class="nav-page-link">{{ $t("header.language") }}</span>
+
+              <div class="nav-language-switch">
+                <el-switch
+                  v-model="language"
+                  class="ml-2"
+                  inline-prompt
+                  active-color="orange"
+                  inactive-color="grey"
+                  active-text="EN"
+                  inactive-text="ZH"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -99,11 +121,12 @@
 </template>
 <script>
 import { mapState, mapMutations } from "vuex";
-import { authenticate, getAccount, addListener } from "../api/contract.js";
 
 export default {
   data() {
-    return {};
+    return {
+      language: true,
+    };
   },
   methods: {
     ...mapMutations(["SET_DATA_SOURCE", "GET_DATA_SOURCE", "SET_LANGUAGE"]),
@@ -114,17 +137,15 @@ export default {
       this.SET_LANGUAGE(command);
       this.$i18n.locale = command;
     },
-    //用户登陆
-    async handleClick() {
-      await authenticate();
-      this.account = await getAccount();
+  },
+  watch: {
+    language(value) {
+      //true为en false为zh
+      this.changeLanguage(value ? "en" : "zh");
     },
   },
-  watch: {},
   mounted() {
     this.GET_DATA_SOURCE();
-    this.handleClick();
-    addListener(this.handleClick);
   },
   computed: {
     ...mapState(["dataSource", "language"]),
@@ -137,7 +158,9 @@ export default {
   margin: 0px;
 }
 .header-container {
+  position: relative;
   height: 60px;
+  z-index: 2999;
 }
 .nav {
   position: fixed;
@@ -157,6 +180,10 @@ export default {
   font-weight: 400;
   text-decoration: none;
 }
+.nav .avatar {
+  position: relative;
+  z-index: 3000;
+}
 .nav .logo {
   position: relative;
   height: 44px;
@@ -164,6 +191,7 @@ export default {
   left: 0;
   margin-top: 15px;
   font-size: 30px;
+  z-index: 3000;
   /* background-image: url();
   background-size: 32px 32px;
   background-repeat: no-repeat;
@@ -233,7 +261,7 @@ export default {
 
 .toggleBtn {
   position: relative;
-  z-index: 2;
+  z-index: 3000;
   height: 44px;
   width: 100px;
   display: none;
@@ -263,12 +291,12 @@ export default {
 }
 
 .navPage {
-  z-index: 1;
+  z-index: 2999;
   background-color: #fff;
   display: flex;
   height: 0vh;
   width: 100vw;
-  transition: all 0.8s;
+  /* transition: all 0.1s; */
   overflow: hidden;
   position: fixed;
   left: 0;
@@ -330,7 +358,7 @@ export default {
   }
   .logo {
     order: 2;
-    left: 20px;
+    margin-left: 10%;
   }
   .toggleBtn {
     width: 50px;
@@ -363,10 +391,10 @@ export default {
   }
 
   .navList {
-    margin: 0 28px;
+    margin: 30px 28px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: left;
     text-align: center;
   }
 
@@ -375,16 +403,17 @@ export default {
     color: orange;
   }
   .navList .nav-page-link-box {
-    padding: 40px 100px;
-    text-align: center;
+    padding: 20px 0px;
+    width: 430px;
   }
   .navList .nav-page-link-box .nav-page-link:hover {
     border-bottom: solid 2px orange;
   }
   .navPage .hr {
+    margin: 4px;
     width: 100%;
     height: 1px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
+    box-shadow: 0px 2px 2px rgb(224, 224, 224);
   }
 
   /* 下拉框样式 */
@@ -404,6 +433,16 @@ export default {
   }
   .navList .nav-language-switch {
     width: 135px;
+  }
+  .nav-page-link {
+    margin-left: 15px;
+    position: absolute;
+  }
+  .nav div {
+    text-align: left;
+  }
+  .navList .nav-language-switch {
+    float: right;
   }
 }
 </style>
