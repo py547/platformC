@@ -2,17 +2,43 @@
   <div class="home-box">
     <div class="chart-box">
       <div class="radio">
-        <el-radio-group v-model="radio" fill="orange">
-          <el-radio-button :disabled="!loaded" label="number">{{
-            $t("home.number")
-          }}</el-radio-button>
-          <el-radio-button :disabled="!loaded" label="project">{{
-            $t("home.project")
-          }}</el-radio-button>
-          <el-radio-button :disabled="!loaded" label="user">{{
-            $t("home.user")
-          }}</el-radio-button>
-        </el-radio-group>
+        <!-- 数据类型选择 -->
+        <div class="datatype-select">
+          <el-radio-group v-model="radio" fill="orange">
+            <el-radio-button :disabled="!loaded" label="number">{{
+              $t("home.number")
+            }}</el-radio-button>
+            <el-radio-button :disabled="!loaded" label="project">{{
+              $t("home.project")
+            }}</el-radio-button>
+            <el-radio-button :disabled="!loaded" label="user">{{
+              $t("home.user")
+            }}</el-radio-button>
+          </el-radio-group>
+        </div>
+        <!-- 数据类型下拉框 -->
+        <div class="datatype-dropdown">
+          <el-dropdown @command="changeLineDataType">
+            <el-button type="primary">
+              {{ $t("home." + radio)
+              }}<el-icon class="el-icon--right"><arrow-down /></el-icon>
+            </el-button>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item command="number">{{
+                  $t("home.number")
+                }}</el-dropdown-item>
+                <el-dropdown-item command="project">{{
+                  $t("home.project")
+                }}</el-dropdown-item>
+                <el-dropdown-item command="user">{{
+                  $t("home.user")
+                }}</el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
+        </div>
+        <!-- 时间下拉框 -->
         <div style="display: inline-block">
           <el-dropdown @command="changeDuration">
             <el-button type="primary">
@@ -21,7 +47,7 @@
             </el-button>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item command="30day">30 Day</el-dropdown-item>
+                <el-dropdown-item command="30days">30 Days</el-dropdown-item>
                 <el-dropdown-item command="1year">1 Year</el-dropdown-item>
               </el-dropdown-menu>
             </template>
@@ -29,11 +55,15 @@
         </div>
       </div>
 
-      <line-chart v-if="loaded" :linedata="lineData"></line-chart>
+      ​ <line-chart v-if="loaded" :linedata="lineData"></line-chart>
+
       <div v-else v-loading="true" style="width: 100%"></div>
+
+      ​
     </div>
   </div>
 </template>
+
 <script>
 import LineChart from "../../components/Chart/lineChart";
 import { mapActions, mapState } from "vuex";
@@ -46,39 +76,40 @@ export default {
     return {
       loaded: false,
       radio: "project",
-      duration: "30 Days",
+      duration: "30days",
     };
   },
   methods: {
     ...mapActions(["get_data"]),
 
-    changeLineDataType(lineDataType) {
-      this.dataType = lineDataType;
-      console.log(lineDataType);
-    },
-    changeDuration(duration) {
-      this.duration = duration;
-    },
+​    changeLineDataType(lineDataType) {
+​      this.radio = lineDataType;
+​      console.log(lineDataType);
+​    },
+​    changeDuration(duration) {
+​      this.duration = duration;
+​    },
   },
   mounted() {
-    this.get_data(this.radio).then(() => {
-      this.loaded = true;
-    });
+​    this.get_data(this.radio).then(() => {
+​      this.loaded = true;
+​    });
   },
   computed: {
-    ...mapState(["lineData"]),
+​    ...mapState(["lineData"]),
   },
   watch: {
-    radio(value) {
-      this.loaded = false;
-      this.get_data(value);
-    },
-    lineData() {
-      this.loaded = true;
-    },
+​    radio(value) {
+​      this.loaded = false;
+​      this.get_data(value);
+​    },
+​    lineData() {
+​      this.loaded = true;
+​    },
   },
 };
 </script>
+
 <style scoped>
 .home-box {
   width: 90%;
@@ -98,12 +129,12 @@ export default {
 }
 
 .el-button {
-  margin-left: 40px;
+  margin-left: 10px;
   background-color: #fff;
   color: rgb(255, 153, 0);
-
+  width: 100px;
   margin-top: 0px;
-  margin-right: 40px;
+  margin-right: 0px;
   line-height: 10px;
   font-weight: 600;
 }
@@ -122,5 +153,21 @@ export default {
 .el-dropdown-menu__item:not(.is-disabled):hover {
   background-color: rgba(255, 153, 0, 0.1);
   color: rgba(255, 153, 0, 0.8);
+}
+.datatype-dropdown {
+  display: none;
+}
+.datatype-select {
+  display: inline-block;
+}
+
+@media only screen and (max-width: 768px) {
+  .datatype-select {
+    display: none;
+  }
+  .datatype-dropdown {
+    display: inline-block;
+    width: 100px;
+  }
 }
 </style>
