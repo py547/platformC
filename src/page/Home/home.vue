@@ -47,27 +47,21 @@
             </el-button>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item command="30days">30 Days</el-dropdown-item>
+                <el-dropdown-item command="30days">30 Day</el-dropdown-item>
                 <el-dropdown-item command="1year">1 Year</el-dropdown-item>
               </el-dropdown-menu>
             </template>
           </el-dropdown>
         </div>
       </div>
-
-      ​ <line-chart v-if="loaded" :linedata="lineData"></line-chart>
-
+      <line-chart v-if="loaded" :linedata="lineData"></line-chart>
       <div v-else v-loading="true" style="width: 100%"></div>
-
-      ​
     </div>
   </div>
 </template>
-
 <script>
 import LineChart from "../../components/Chart/lineChart";
 import { mapActions, mapState } from "vuex";
-
 export default {
   components: {
     LineChart,
@@ -81,35 +75,32 @@ export default {
   },
   methods: {
     ...mapActions(["get_data"]),
-
-​    changeLineDataType(lineDataType) {
-​      this.radio = lineDataType;
-​      console.log(lineDataType);
-​    },
-​    changeDuration(duration) {
-​      this.duration = duration;
-​    },
+    changeLineDataType(lineDataType) {
+      this.radio = lineDataType;
+    },
+    changeDuration(duration) {
+      this.duration = duration;
+    },
   },
   mounted() {
-​    this.get_data(this.radio).then(() => {
-​      this.loaded = true;
-​    });
+    this.get_data(this.radio).then(() => {
+      this.loaded = true;
+    });
   },
   computed: {
-​    ...mapState(["lineData"]),
+    ...mapState(["lineData"]),
   },
   watch: {
-​    radio(value) {
-​      this.loaded = false;
-​      this.get_data(value);
-​    },
-​    lineData() {
-​      this.loaded = true;
-​    },
+    radio(value) {
+      this.loaded = false;
+      this.get_data(value);
+    },
+    lineData() {
+      this.loaded = true;
+    },
   },
 };
 </script>
-
 <style scoped>
 .home-box {
   width: 90%;
@@ -127,7 +118,6 @@ export default {
 .el-radio-button:hover {
   color: #fff;
 }
-
 .el-button {
   margin-left: 10px;
   background-color: #fff;
@@ -160,7 +150,6 @@ export default {
 .datatype-select {
   display: inline-block;
 }
-
 @media only screen and (max-width: 768px) {
   .datatype-select {
     display: none;
