@@ -16,7 +16,7 @@ export default {};
   height: 100px;
   width: 100%;
   background-color: orange;
-  position: fixed;
+  /* position: fixed; */
   bottom: 0;
 }
 .design {

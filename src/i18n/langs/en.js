@@ -4,7 +4,8 @@ module.exports = {
     collections: "Collections",
     time: "Time",
     analysis: "Analysis",
-    language: "Language"
+    language: "Language",
+    dataSource: "DataSource"
   },
   home: {
     number: "Number",

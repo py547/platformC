@@ -70,6 +70,7 @@
         <div class="hr"></div>
         <div class="navMain">
           <div class="navList">
+            <!-- 导航路由 -->
             <div class="nav-page-link-box">
               <el-icon><home-filled /></el-icon>
               <router-link to="/home" class="nav-page-link">
@@ -96,8 +97,15 @@
                 <span>{{ $t("header.analysis") }}</span>
               </router-link>
             </div>
+            <!-- 数据源设置 -->
             <div class="nav-page-link-box">
-              <el-icon style=""><setting /></el-icon>
+              <el-icon><coin /></el-icon>
+
+              <span class="nav-page-link">{{ $t("header.dataSource") }}</span>
+            </div>
+            <!-- 语言设置 -->
+            <div class="nav-page-link-box">
+              <el-icon><setting /></el-icon>
 
               <span class="nav-page-link">{{ $t("header.language") }}</span>
 
@@ -126,11 +134,13 @@ export default {
   data() {
     return {
       language: true,
+      navDataSource: "1",
     };
   },
   methods: {
     ...mapMutations(["SET_DATA_SOURCE", "GET_DATA_SOURCE", "SET_LANGUAGE"]),
     changeDataSource(command) {
+      this.navDataSource = command == "OPENSEA" ? "1" : "2";
       this.SET_DATA_SOURCE(command);
     },
     changeLanguage(command) {
@@ -142,6 +152,9 @@ export default {
     language(value) {
       //true为en false为zh
       this.changeLanguage(value ? "en" : "zh");
+    },
+    navDataSource(value) {
+      this.SET_DATA_SOURCE(value == 1 ? "OPENSEA" : "OUR  NFT");
     },
   },
   mounted() {
@@ -339,6 +352,8 @@ export default {
 @media only screen and (max-width: 768px) {
   .toggleBtn {
     display: flex;
+    width: 50px;
+    order: 1;
   }
   .toggleBtn .line {
     display: block;
@@ -359,10 +374,6 @@ export default {
   .logo {
     order: 2;
     margin-left: 10%;
-  }
-  .toggleBtn {
-    width: 50px;
-    order: 1;
   }
   .avatar {
     order: 3;
@@ -399,6 +410,7 @@ export default {
   }
 
   .navList .nav-page-link {
+    margin-left: 15px;
     text-decoration: none;
     color: orange;
   }
@@ -406,9 +418,9 @@ export default {
     padding: 20px 0px;
     width: 430px;
   }
-  .navList .nav-page-link-box .nav-page-link:hover {
+  /* .navList .nav-page-link-box .nav-page-link:hover {
     border-bottom: solid 2px orange;
-  }
+  } */
   .navPage .hr {
     margin: 4px;
     width: 100%;
@@ -416,33 +428,16 @@ export default {
     box-shadow: 0px 2px 2px rgb(224, 224, 224);
   }
 
-  /* 下拉框样式 */
-
-  .nav-datasource-dropdown {
-    padding: 15px;
-    width: 100px;
-  }
-  .nav-language-dropdown {
-    padding: 15px;
-    width: 100px;
-    padding: 40px 125px;
-  }
-  .nav-language-dropdown .nav-language-icon {
-    font-size: 30px;
-    color: orange;
-  }
-  .navList .nav-language-switch {
-    width: 135px;
-  }
-  .nav-page-link {
-    margin-left: 15px;
-    position: absolute;
-  }
   .nav div {
     text-align: left;
   }
   .navList .nav-language-switch {
     float: right;
+    width: 135px;
+  }
+  .datasource-radio {
+    float: right;
+    margin-left: 10px;
   }
 }
 </style>
